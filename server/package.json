@@ -1,0 +1,33 @@
+{
+  "name": "tippler-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "set NODE_ENV=development&& nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norppa/tippler.git"
+  },
+  "author": "Jari Haavisto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/norppa/tippler/issues"
+  },
+  "homepage": "https://github.com/norppa/tippler#readme",
+  "dependencies": {
+    "better-sqlite3": "^7.5.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
+  }
+}
