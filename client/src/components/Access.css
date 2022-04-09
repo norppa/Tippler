@@ -1,0 +1,91 @@
+.Access {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Access > div {
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 15px;
+  margin-top: 30px;
+}
+
+.Access .upper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px 20px 20px;
+  font-size: 14pt;
+}
+
+.Access .lower {
+  padding: 20px;
+}
+
+.Access h1 {
+  text-shadow: 1px 1px #00cfc8;
+}
+
+.Access a {
+  color: #00cfc8;
+  margin-left: 0.5em;
+  cursor: pointer;
+}
+
+.Access .inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 20em;
+}
+
+.Access input {
+  margin-top: 3px;
+  margin-bottom: 8px;
+  width: 100%;
+  padding: 3px;
+  font-size: 1.2em;
+  border-radius: 5px;
+}
+
+.Access input:disabled {
+  border-style: solid;
+  border-color: darkgray;
+}
+
+.Access .submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5em;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  width: 100%;
+  padding: 3px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  background-color: #00cfc8;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.Access .error {
+  color: red;
+  width: 100%;
+  text-align: center;
+}
+
+.spinner {
+  animation-name: spin;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+}
+
+@keyframes spin {
+    from { transform:rotate(0deg); }
+    to {transform:rotate(360deg); }
+}

@@ -1,0 +1,53 @@
+.Card {
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: rgba(240,240,255);
+    color: black;
+    cursor: pointer;
+}
+
+.Card .contents {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 80px;
+    grid-template-rows: 35px 65px 20px auto;
+    grid-template-areas: 
+        "name glass"
+        "ingredients glass"
+        "ingredients method"
+        "option option";
+}
+
+.Card h2 {
+    grid-area: name;
+    margin: 0;
+    padding: 0;
+}
+
+.Card .glass {
+    grid-area: glass;
+    width: 70px;
+    height: 70px;
+}
+
+.Card .method {
+    grid-area: method;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.Card .ingredients {
+    grid-area: ingredients;
+    margin: 0;
+    padding-left: 1.5em;
+}
+
+.Card .optional {
+    grid-area: option;
+}
+
+.Card .optional div {
+    margin-top: 5px;
+}

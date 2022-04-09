@@ -1,0 +1,38 @@
+.Tippler {
+    max-width: 800px;    
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: auto 400px auto;
+    grid-template-rows: 30px auto;
+    grid-template-areas:
+        "logo content menu"
+        ". content .";
+
+}
+.contentArea {
+    grid-area: content;
+}
+
+.menuArea {
+    grid-area: menu;
+    text-align: right;
+}
+
+.menuArea button {
+    background-color: rgba(0,0,0,0);
+    cursor: pointer;
+    border: 2px solid rgba(240,240,255);
+    padding: 4px 8px;
+    color: rgba(240,240,255);
+    border-radius: 10px;
+}
+
+.logoArea {
+    grid-area: logo;
+}
+
+.logo {
+    width: 40px;
+}
