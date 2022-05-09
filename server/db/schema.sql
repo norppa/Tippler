@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS cohorts;
 DROP TABLE IF EXISTS cocktail_ingredients;
 DROP TABLE IF EXISTS cocktails;
 DROP TABLE IF EXISTS users;
@@ -46,7 +47,7 @@ CREATE TABLE cocktails (
     owner INTEGER,
     FOREIGN KEY (glass) REFERENCES glasses(glass),
     FOREIGN KEY (method) REFERENCES methods(method),
-    FOREIGN KEY (owner) REFERENCES users(id)
+    FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE cocktail_ingredients (
@@ -54,5 +55,13 @@ CREATE TABLE cocktail_ingredients (
     cocktail_id INTEGER,
     name TEXT,
     amount TEXT,
-    FOREIGN KEY (cocktail_id) REFERENCES cocktails (id)
-); 
+    FOREIGN KEY (cocktail_id) REFERENCES cocktails (id) ON DELETE CASCADE
+);
+
+CREATE TABLE cohorts (
+    user INTEGER,
+    cohort INTEGER,
+    included BOOLEAN,
+    FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (cohort) REFERENCES users(id) ON DELETE CASCADE
+);

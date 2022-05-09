@@ -1,8 +1,12 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useContext } from 'react'
+
+import { Context } from '../main'
+import api from '../api'
 
 import './ContextMenu.css'
 
-const ContextMenu = (props) => {
+const ContextMenu = () => {
+    const [state, setState] = useContext(Context)
 
     const [visible, setVisible] = useState(false)
     const [x, setX] = useState(0)
@@ -12,12 +16,16 @@ const ContextMenu = (props) => {
     useEffect(() => {
         document.addEventListener('contextmenu', openContextMenu)
         document.addEventListener('click', closeContextMenu)
+        return () => {
+            document.removeEventListener('contextmenu', openContextMenu)
+            document.removeEventListener('click', closeContextMenu)
+        }
     }, [])
 
     const openContextMenu = (event) => {
         event.preventDefault()
         const card = event.target.closest('.Card')
-        setCocktailId(card ? card.dataset.cocktailId : null)
+        setCocktailId(card ? Number(card.dataset.cocktailId) : null)
         setVisible(true)
         setX(event.pageX)
         setY(event.pageY)
@@ -33,24 +41,39 @@ const ContextMenu = (props) => {
     if (!visible) return null
 
     const onDeleteClick = () => {
+        console.log('onDeleteClick', state.cocktails, cocktailId)
+        const name = state.cocktails.find(cocktail => cocktail.id == cocktailId).name
+        const confirmation = {
+            heading: 'Confirm delete',
+            text: `Are you sure you want to delete "${name}?`,
+            confirmButtonText: `Delete`,
+            onConfirm: async () => {
+                setState({ confirmation: null })
+                const response = await api.delCocktail(cocktailId, state.token)
+                if (response.error) return console.error(response.error)
+                setState({ cocktails: state.cocktails.filter(cocktail => cocktail.id !== cocktailId) })
+
+            },
+        }
+        setState({ confirmation })
         setVisible(false)
-        props.setConfirmDelete(cocktailId)
     }
 
-    const onEditNewClick = () => {
+    const onAddNewClick = () => {
         setVisible(false)
-        props.openEditor(null)
+        setState({ showEditor: true, editorCocktail: {} })
     }
 
-    const onEditOldClick = () => {
+    const onEditClick = () => {
+        const cocktail = state.cocktails.find(cocktail => cocktail.id === cocktailId)
         setVisible(false)
-        props.openEditor(cocktailId)
+        setState({ showEditor: true, editorCocktail: cocktail})
     }
 
     return (
         <div id='ContextMenu' style={{ top: y, left: x }}>
-            <div className='item' onClick={onEditNewClick}>Add new cocktail </div>
-            {cocktailId && <div className='item' onClick={onEditOldClick}>Edit Cocktail</div>}
+            <div className='item' onClick={onAddNewClick}>Add new cocktail </div>
+            {cocktailId && <div className='item' onClick={onEditClick}>Edit Cocktail</div>}
             {cocktailId && <div className='item' onClick={onDeleteClick}>Delete Cocktail</div>}
 
         </div>

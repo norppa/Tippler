@@ -1,6 +1,6 @@
 import express from 'express'
 import db from '../database.js'
-import { authenticate } from '../auth/auth.js'
+import { authenticate } from '../auth.js'
 
 
 const router = express.Router()
@@ -26,21 +26,17 @@ const putRequestError = ({ id, glass, method, ingredients }) => {
     if (ingredients && ingredients.find(ingredient => !ingredient.name)) return 'Invalid ingredient'
 }
 
-const deleteRequestError = ({ id }) => {
-    if (!id || !Number.isInteger(id)) return 'Missing or invalid id'
-}
-
 const validate = (req, res, next) => {
     let error
     if (req.method === 'POST') error = postRequestError(req.body)
     if (req.method === 'PUT') error = putRequestError(req.body)
-    if (req.method === 'DELETE') error = deleteRequestError(req.body)
 
     if (error) return res.status(400).send(error)
     next()
 }
 
 router.get('/', authenticate, (req, res) => {
+
     const results = db.prepare('SELECT cocktail_id AS id, c.name, garnish, method, glass, source, info, i.name AS iname, i.amount AS iamount FROM cocktails AS c LEFT JOIN cocktail_ingredients AS i ON c.id = i.cocktail_id WHERE c.owner=?').all(req.user.id)
     let cocktails = []
     results.forEach(result => {
@@ -65,7 +61,6 @@ router.get('/', authenticate, (req, res) => {
 
 router.post('/', authenticate, validate, (req, res) => {
     const { name, glass, method, source, info, ingredients } = req.body
-console.log('post', req.body)
     const createCocktail = db.transaction(() => {
         const result = db.prepare('INSERT INTO cocktails (name, glass, method, source, info, owner) values (?,?,?,?,?,?)')
             .run(name, glass, method, source, info, req.user.id)
@@ -87,7 +82,7 @@ console.log('post', req.body)
     res.send()
 })
 
-router.delete('/', authenticate, validate, (req, res) => {
+router.delete('/', authenticate, (req, res) => {
     console.log('DELETE', req.body)
     const deletion = db.transaction(() => {
         db.prepare('DELETE FROM cocktail_ingredients WHERE cocktail_id=?').run(req.body.id)
@@ -95,7 +90,7 @@ router.delete('/', authenticate, validate, (req, res) => {
     })
     try {
         deletion()
-        res.send()
+        res.send({})
     } catch (error) {
         console.error(error)
         res.status(500).send(error)

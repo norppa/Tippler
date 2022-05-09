@@ -1,5 +1,5 @@
 .Tippler {
-    max-width: 800px;    
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
@@ -11,6 +11,7 @@
         ". content .";
 
 }
+
 .contentArea {
     grid-area: content;
 }
@@ -21,11 +22,11 @@
 }
 
 .menuArea button {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
-    border: 2px solid rgba(240,240,255);
+    border: 2px solid rgba(240, 240, 255);
     padding: 4px 8px;
-    color: rgba(240,240,255);
+    color: rgba(240, 240, 255);
     border-radius: 10px;
 }
 
@@ -35,4 +36,48 @@
 
 .logo {
     width: 40px;
+}
+
+.TopRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.SettingsIcon {
+    font-size: 20pt;
+    cursor: pointer;
+}
+
+.Modal {
+    position: absolute;
+    inset: 0 0 0 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.Modal .window {
+    max-width: 600px;
+    margin: 50px auto auto auto;
+
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: white;
+    color: black;
+}
+
+.Modal .close {
+    float: right;
+    position: relative;
+    border-radius: 20px;
+    top: -35px;
+    right: -35px;
+    font-size: 35px;
+    
+    cursor: pointer;
+    background-color: white;
+}
+
+.error {
+    text-align: center;
+    color: red;
 }

@@ -4,7 +4,6 @@ import cocktailRouter from './cocktailRouter.js'
 import userRouter from './userRouter.js'
 
 const router = express.Router()
-router.use(express.json())
 
 router.get('/', (req, res) => res.send('Tippler Server'))
 

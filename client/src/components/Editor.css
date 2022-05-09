@@ -1,24 +1,7 @@
-#Editor {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100vw;
-    height: 100vh;
-}
-
-#Editor .window {
-    margin-top: 50px;
-    padding: 20px;
-    border: 1px solid black;
-    border-radius: 15px;
-    background-color: white;
-    color: black;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-
+.Editor .content {
+    position: relative;
+    width: 100%;
+    top: -30px;
     display: grid;
     grid-template-columns: 50% 1fr 200px;
     grid-template-rows: auto auto max-content auto auto auto auto auto auto;
@@ -36,96 +19,91 @@
         ". submit submit";
 }
 
-#Editor h1 {
+.Editor h1 {
     grid-area: heading;
     margin-top: 8px;
     margin-bottom: 8px;
 }
 
-#Editor .closeButton {
-    grid-area: closebutton;
-    text-align: right;
-    cursor: pointer;
-}
-
-#Editor .Name {
+.Editor .Name {
     grid-area: name;
 }
 
-#Editor .Ingredients {
+.Editor .Ingredients {
     grid-area: ingredients;
 }
 
-#Editor .Garnish {
+.Editor .Garnish {
     grid-area: garnish;
 }
 
-#Editor .Glass {
+.Editor .Glass {
     grid-area: glass;
 }
 
-#Editor .Method {
+.Editor .Method {
     grid-area: method;
 }
 
-#Editor .Info {
+.Editor .Info {
     grid-area: info;
 }
 
-#Editor .GlassImage {
+.Editor .GlassImage {
     grid-area: glassimage;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#Editor img {
+.Editor img {
     width: 80px;
     height: 80px;
 }
 
-#Editor .MethodText {
+.Editor .MethodText {
     grid-area: methodtext;
     text-align: center;
 }
 
-#Editor .Source {
+.Editor .Source {
     grid-area: source;
 }
 
-#Editor .Errors {
+.Editor .Errors {
     grid-area: error;
     text-align: center;
     margin-bottom: 10px;
     color: red;
 }
 
-#Editor button {
+.Editor button {
     grid-area: submit;
 }
 
 
-#Editor label>input,
-#Editor label>textarea,
-#Editor label>select {
+.Editor label>input,
+.Editor label>textarea,
+.Editor label>select {
     display: flex;
     flex: 1;
     margin-left: 20px;
     margin-right: 10px;
+    resize: none;
 }
 
-.labeledInput {
+.Editor .content label {
     display: flex;
     flex-direction: column;
     margin-right: 10px;
     margin-bottom: 8px;
 }
 
-#Editor .error {
+.Editor .error {
     color: red;
 }
 
-#Editor .error input, #Editor .ingredientNameError {
+.Editor .error input, .Editor .ingredientNameError {
     outline: red;
     border-color: red;
     border-radius: 3px;

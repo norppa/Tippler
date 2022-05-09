@@ -1,0 +1,9 @@
+.Confirmation .content {
+    width: 400px;
+    margin: 100px auto auto auto;
+    color: black;
+    background-color: white;
+    border: 3px solid #9FC4C2;
+    padding: 0px 20px 20px 20px;
+    border-radius: 5px;
+}

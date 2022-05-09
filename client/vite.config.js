@@ -7,4 +7,5 @@ export default defineConfig({
   server: {
     port: 8080
   },
+	base: './', // needed for correct parsing of css and js files in index.html
 })

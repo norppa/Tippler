@@ -1,5 +1,19 @@
 const apiUrl = process.env.NODE_ENV === 'production' ? 'api' : 'http://localhost:3000/api'
 
+const generateOptions = (method, body, token) => {
+    const options = {
+        method,
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Accept': 'application/json'
+        }
+    }
+
+    if (body) options.body = JSON.stringify(body)
+    if (token) options.headers['Authorization'] = 'Bearer ' + token
+
+    return options
+}
 
 const getParameters = () => {
     const url = apiUrl + '/parameters'
@@ -8,78 +22,57 @@ const getParameters = () => {
 
 const access = (username, password, isLogin) => {
     const url = apiUrl + (isLogin ? '/user/login' : '/user/register')
-    const request = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ username: username, password: password })
-    }
-
-    return fetch(url, request).then(processResponse)
-
+    const options = generateOptions('POST', { username, password }, null)
+    return fetch(url, options).then(processResponse)
 }
 
 const getCocktails = (token) => {
     const url = apiUrl + '/cocktail'
-    const request = {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json'
-        }
-    }
-
-    return fetch(url, request).then(processResponse)
+    const options = generateOptions('GET', null, token)
+    return fetch(url, options).then(processResponse)
 }
 
-const updateCocktail = (cocktail, token) => {
-    console.log('update')
+const setCocktail = (cocktail, token) => {
     const url = apiUrl + '/cocktail'
-    const request = {
-        method: 'PUT',
-        headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(cocktail)
-    }
-    return fetch(url, request).then(processResponse)
+    const options = generateOptions(cocktail.id ? 'PUT' : 'POST', cocktail, token)
+    return fetch(url, options).then(processResponse)
 }
 
-const createCocktail = (cocktail, token) => {
-    console.log('create')
+const delCocktail = (id, token) => {
     const url = apiUrl + '/cocktail'
-    const request = {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(cocktail)
-    }
-    return fetch(url, request).then(processResponse)
+    const options = generateOptions('DELETE', { id }, token)
+    console.log('del', url, options)
+    return fetch(url, options).then(processResponse)
 }
 
-const deleteCocktail = (id, token) => {
-    const url = apiUrl + '/cocktail'
-    const request = {
-        method: 'DELETE',
-        headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({ id })
-    }
-    return fetch(url, request)
+const setUser = (changes, token) => {
+    const url = apiUrl + '/user'
+    const options = generateOptions('PUT', changes, token)
+    return fetch(url, options).then(processResponse)
+}
+
+const checkCohort = (username, token) => {
+    const url = apiUrl + '/user/cohort'
+    const options = generateOptions('POST', { username, probe: true }, token)
+    return fetch(url, options).then(processResponse)
+
+}
+
+const addCohort = (username, token) => {
+    console.log('addCohort', username, token)
+    const url = apiUrl + '/user/cohort'
+    const options = generateOptions('POST', { username }, token)
+    return fetch(url, options).then(processResponse)
+}
+
+const setCohort = (id, included, token) => {
+    const url = apiUrl + '/user/cohort'
+    const options = generateOptions('PUT', { id, included }, token)
+    return fetch(url, options).then(processResponse)
 }
 
 const processResponse = async (response) => {
-    console.log('processing response')
+    console.log('processResponse', response.status)
     if (response.status === 200) return await response.json()
     const errorCode = await response.text() ?? unknown
     return { error: errorMessages[errorCode] ?? errorCode }
@@ -93,4 +86,4 @@ const errorMessages = {
     unknown: 'A mysterious error has happened. This should not be possible.'
 }
 
-export default { getParameters, access, getCocktails, createCocktail, updateCocktail, deleteCocktail }
+export default { getParameters, access, getCocktails, setCocktail, delCocktail, setUser, checkCohort, setCohort, addCohort }

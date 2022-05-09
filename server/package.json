@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "set NODE_ENV=development&& nodemon server.js"
+    "dev": "set NODE_ENV=development&& nodemon src/server.js"
   },
   "repository": {
     "type": "git",

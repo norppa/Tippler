@@ -1,0 +1,42 @@
+.inputContainer {
+    font-size: 14pt;
+}
+
+.inputContainer > * {
+    font-size: 14pt;
+    height: 2em;
+    width: calc(100% - 30px);
+    margin: 5px 0px 0px 30px;
+    padding-left: 6px;
+    border-radius: 3px;
+    border: 1px solid #D0D7DE;
+
+}
+
+.inputContainer > div {
+    font-size: 14pt;
+    background-color: #F6F8FA;
+
+    display: flex;
+    align-items: center;
+}
+
+.inputContainer > input {
+    font-size: 14pt;
+    border: 1px solid darkblue;
+}
+
+.cohortInputError {
+    background-color: white;
+    border: none;
+}
+
+.cohortRow {
+    font-size: 14pt;
+    /* display: flex; */
+    border: 1px solid gray;
+}
+
+.cohortRow .icon {
+    border: 1px solid red;
+}

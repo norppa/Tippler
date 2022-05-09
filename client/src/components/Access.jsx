@@ -1,13 +1,15 @@
 
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ImSpinner9 } from 'react-icons/im'
 
-import API from '../api'
-import Input from './Input'
+import api from '../api'
+import { Context, initialState } from '../main'
 import './Access.css'
+import localstorage from '../localstorage'
 
 
-const Access = ({ login }) => {
+const Access = () => {
+    const [state, setState] = useContext(Context)
 
     const [isLogin, setIsLogin] = useState(true)
     const [username, setUsername] = useState('')
@@ -17,19 +19,21 @@ const Access = ({ login }) => {
 
     useEffect(() => setError(''), [username, password])
 
-    const submit = () => {
+    const onUsernameChange = (event) => setUsername(event.target.value)
+    const onPasswordChange = (event) => setPassword(event.target.value)
+    const submitOnEnter = (event) => event.key === 'Enter' && submit()
+
+    const submit = async () => {
         setError('')
         setIsLoading(true)
-        API.access(username, password, isLogin)
-            .then(response => {
-                if (response.error) setError(response.error)
-                else login(response.token)
-            })
-            .catch(error => {
-                console.error(error)
-                setError('Error trying to reach the server. Please try again later.')
-            })
-            .finally(() => setIsLoading(false))
+        const user = await api.access(username, password, isLogin)
+        setIsLoading(false)
+        if (user.error) {
+            setError(user.error)
+        } else {
+            setState({ ...initialState, user })
+            localstorage.setUser(user)
+        }     
     }
 
     return (
@@ -39,14 +43,14 @@ const Access = ({ login }) => {
 
                 <div className='inputs'>
                     Username
-                    <Input text={[username, setUsername]} disabled={isLoading} />
+                    <input type='text' value={username} onChange={onUsernameChange} disabled={isLoading} />
                     Password
-                    <Input text={[password, setPassword]} disabled={isLoading} />
+                    <input type='text' value={password} onChange={onPasswordChange} disabled={isLoading} onKeyDown={submitOnEnter} />
 
                     <button className='submit'
                         onClick={submit}
                         disabled={!password || !username}>
-                        { isLoading ? <ImSpinner9 className='spinner' /> : (isLogin ? "Sign in" : "Register") }
+                        {isLoading ? <ImSpinner9 className='spinner' /> : (isLogin ? "Sign in" : "Register")}
                     </button>
 
                     {error && <div className='error'>{error}</div>}

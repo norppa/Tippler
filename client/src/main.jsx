@@ -1,39 +1,52 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, createContext } from 'react'
 import ReactDOM from 'react-dom'
-import './main.css'
 
+import localstorage from './localstorage'
 import Access from './components/Access'
 import Tippler from './components/Tippler'
 
-const KEY = '@TipplerToken'
+import './main.css'
+
+export const initialState = {
+  user: null,
+  cocktails: [],
+  editorCocktail: {},
+  showEditor: false,
+  showSettings: true,
+  settings: {
+    includedUsers: []
+  }
+}
+
+export const Context = createContext(initialState)
+
+const Store = ({ children }) => {
+  const [state, _setState] = useState(initialState)
+  const setState = (changes) => _setState(Object.assign({}, state, changes))
+
+  return <Context.Provider value={[state, setState]}>{children}</Context.Provider>
+}
 
 const App = () => {
-  const [token, setToken] = useState(false)
+  const [state, setState] = useContext(Context)
 
   useEffect(() => {
-    const token = localStorage.getItem(KEY)
-    if (token) setToken(token)
+    const user = localstorage.getUser()
+    if (!user) return
+
+
+
+    if (user) setState({ user })
   }, [])
 
-  const login = (token) => {
-    localStorage.setItem(KEY, token)
-    setToken(token)
-  }
-
-  const logout = () => {
-    localStorage.removeItem(KEY)
-    setToken(false)
-  }
-
-  if (!token) return <Access login={login} />
-
-  return <Tippler logout={logout} token={token} />
-
+  return state.user ? <Tippler /> : <Access />
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Store>
+      <App />
+    </Store>
   </React.StrictMode>,
   document.getElementById('root')
 )
