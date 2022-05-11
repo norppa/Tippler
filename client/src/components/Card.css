@@ -3,9 +3,14 @@
     border-radius: 10px;
     padding: 10px;
     margin: 10px 0;
-    background-color: rgba(240,240,255);
+    background-color: #FFFFFF;
     color: black;
     cursor: pointer;
+}
+
+.Card.external {
+    background-color: rgba(240,240,255, 0.75);
+    border-color: rgba(240,240,255, 0.75);
 }
 
 .Card .contents {
@@ -51,3 +56,4 @@
 .Card .optional div {
     margin-top: 5px;
 }
+

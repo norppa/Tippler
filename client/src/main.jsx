@@ -12,10 +12,12 @@ export const initialState = {
   cocktails: [],
   editorCocktail: {},
   showEditor: false,
-  showSettings: true,
+  showSettings: false,
   settings: {
     includedUsers: []
-  }
+  },
+  searchDepth: 0,
+  searchValue: '',
 }
 
 export const Context = createContext(initialState)

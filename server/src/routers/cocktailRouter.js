@@ -1,5 +1,6 @@
 import express from 'express'
-import db from '../database.js'
+import db from '../db.js'
+import Database from '../database.js'
 import { authenticate } from '../auth.js'
 
 
@@ -36,27 +37,7 @@ const validate = (req, res, next) => {
 }
 
 router.get('/', authenticate, (req, res) => {
-
-    const results = db.prepare('SELECT cocktail_id AS id, c.name, garnish, method, glass, source, info, i.name AS iname, i.amount AS iamount FROM cocktails AS c LEFT JOIN cocktail_ingredients AS i ON c.id = i.cocktail_id WHERE c.owner=?').all(req.user.id)
-    let cocktails = []
-    results.forEach(result => {
-        let cocktail = cocktails.find(cocktail => cocktail.id === result.id)
-        if (cocktail) {
-            cocktail.ingredients.push({ name: result.iname, amount: result.iamount })
-        } else {
-            cocktails.push({
-                id: result.id,
-                name: result.name,
-                method: result.method,
-                glass: result.glass,
-                garnish: result.garnish,
-                source: result.source,
-                info: result.info,
-                ingredients: [{ name: result.iname, amount: result.iamount }]
-            })
-        }
-    })
-    res.send(cocktails)
+    res.send(Database.getCocktails(req.user.id))
 })
 
 router.post('/', authenticate, validate, (req, res) => {
@@ -99,8 +80,6 @@ router.delete('/', authenticate, (req, res) => {
 
 router.put('/', authenticate, validate, (req, res) => {
     const { id, name, glass, method, garnish, source, info, ingredients } = req.body
-
-    console.log(req.body)
 
     const updateTransaction = db.transaction(() => {
         const updated = { id }

@@ -39,13 +39,11 @@ const Access = () => {
     return (
         <div className='Access'>
             <div className='upper'>
-                <h1>{isLogin ? "Sign in to Tippler" : "Register to Tippler"}</h1>
+                <h1>Tippler</h1>
 
                 <div className='inputs'>
-                    Username
-                    <input type='text' value={username} onChange={onUsernameChange} disabled={isLoading} />
-                    Password
-                    <input type='text' value={password} onChange={onPasswordChange} disabled={isLoading} onKeyDown={submitOnEnter} />
+                    <input type='text' placeholder='Username' value={username} onChange={onUsernameChange} disabled={isLoading} />
+                    <input type='text' placeholder='Password' value={password} onChange={onPasswordChange} disabled={isLoading} onKeyDown={submitOnEnter} />
 
                     <button className='submit'
                         onClick={submit}

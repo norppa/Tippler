@@ -72,7 +72,6 @@ const setCohort = (id, included, token) => {
 }
 
 const processResponse = async (response) => {
-    console.log('processResponse', response.status)
     if (response.status === 200) return await response.json()
     const errorCode = await response.text() ?? unknown
     return { error: errorMessages[errorCode] ?? errorCode }

@@ -1,5 +1,5 @@
 import express from 'express'
-import db from '../database.js'
+import db from '../db.js'
 import cocktailRouter from './cocktailRouter.js'
 import userRouter from './userRouter.js'
 

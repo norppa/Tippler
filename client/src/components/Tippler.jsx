@@ -5,21 +5,18 @@ import { BiCog } from 'react-icons/bi'
 import { Context } from '../main'
 import api from '../api'
 import Card from './Card'
-import Search from './Search'
 import ContextMenu from './ContextMenu'
 import Editor from './Editor'
-import Settings from './Settings'
+import Settings from './Settings/Settings'
 
 import './Tippler.css'
 import Confirmation from './Confirmation'
 
 
 const Tippler = () => {
-
     const [state, setState] = useContext(Context)
 
     const [error, setError] = useState('')
-    const [search, setSearch] = useState({ text: '', fromIngredients: false })
 
     useEffect(async () => {
         const cocktails = await api.getCocktails(state.user.token)
@@ -27,28 +24,39 @@ const Tippler = () => {
         setState({ cocktails })
     }, [])
 
+    const setSearchValue = (event) => setState({ searchValue: event.target.value })
 
-    const matchesSearch = (target) => target.toLowerCase().includes(search.text.toLowerCase())
+    const matchesSearch = (target) => target?.toLowerCase()?.includes(state.searchValue.toLowerCase())
 
     const openSettings = () => setState({ showSettings: true })
 
-    console.log('state', state.user.cohorts)
+    const bySearch = ({ name, ingredients, glass, method, garnish, source, info }) => {
+        if (!state.searchValue) return true
+        if (matchesSearch(name)) return true
+        if (state.searchDepth === 0) return false
+        if (ingredients.some(({ name }) => matchesSearch(name))) return true
+        if (state.searchDepth === 1) return false
+        return [glass, method, garnish, source, info].some(x => matchesSearch(x))
+    }
+
+    console.log(state.cocktails)
 
     return (
         <>
             <div className='Tippler'>
                 <div className='contentArea'>
                     <div className='TopRow'>
-                        <Search search={search} setSearch={setSearch} />
+                        <input className='Search'
+                            type='text'
+                            value={state.searchValue}
+                            onChange={setSearchValue}
+                        />
                         <BiCog className='SettingsIcon' onClick={openSettings} />
                     </div>
                     {<div className='error'>{error}</div>}
                     {
-                        state.cocktails.filter(cocktail => {
-                            if (!search.text) return true
-                            if (matchesSearch(cocktail.name)) return true
-                            if (search.fromIngredients && cocktail.ingredients.some(ingredient => matchesSearch(ingredient.name))) return true
-                        }).map((cocktail) => <Card key={cocktail.id} {...cocktail} />)
+                        state.cocktails.filter(bySearch)
+                            .map((cocktail) => <Card key={cocktail.id} {...cocktail} />)
                     }
                 </div>
             </div>
@@ -60,4 +68,5 @@ const Tippler = () => {
 
     )
 }
+
 export default Tippler

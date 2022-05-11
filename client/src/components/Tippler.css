@@ -72,7 +72,7 @@
     top: -35px;
     right: -35px;
     font-size: 35px;
-    
+
     cursor: pointer;
     background-color: white;
 }
@@ -80,4 +80,21 @@
 .error {
     text-align: center;
     color: red;
+}
+
+.Search {
+
+    width: 100%;
+    padding: 0 10px;
+    flex-grow: 1;
+    padding: 4px 8px;
+    background-color: rgba(240, 240, 255);
+    border-radius: 10px;
+    border: none;
+    height: 2em;
+}
+
+.Search:focus {
+    background-color: white;
+    outline: none;
 }
