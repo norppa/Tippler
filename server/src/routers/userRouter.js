@@ -99,8 +99,6 @@ router.delete('/', authenticate, (req, res) => {
     res.send()
 })
 
-router.get('/cohort/:id',)
-
 router.post('/cohort', authenticate, (req, res) => {
     const { username } = req.body
     if (!username) return res.status(400).send('MISSING_USERNAME')

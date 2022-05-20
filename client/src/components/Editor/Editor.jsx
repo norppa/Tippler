@@ -99,22 +99,6 @@ const Editor = () => {
 
         console.log('oldCocktail', state.editorCocktail)
         isNewCocktail ? createCocktail() : updateCocktail()
-
-        return
-
-        const editorCocktail = { id: state.editorCocktail.id, name, ingredients, garnish, method, glass, source, info }
-        console.log('cocktail', editorCocktail)
-
-        const response = await api.setCocktail(editorCocktail, state.user.token)
-        if (response.error) return console.error(response.error)
-        console.log('response', response)
-
-        const cocktails = isNewCocktail
-            ? state.cocktails.concat(response)
-            : state.cocktails.map(cocktail => cocktail.id === state.editorCocktail.id ? response : cocktail)
-
-        setState({ showEditor: false, cocktails })
-
     }
 
     const createCocktail = async () => {

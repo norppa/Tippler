@@ -39,8 +39,6 @@ const Tippler = () => {
         return [glass, method, garnish, source, info].some(x => matchesSearch(x))
     }
 
-    console.log('cocktais', state.cocktails)
-
     return (
         <>
             <div className='Tippler'>

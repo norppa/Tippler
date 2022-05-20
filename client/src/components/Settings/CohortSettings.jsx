@@ -12,6 +12,7 @@ const CohortSettings = () => {
     const [showCohortInput, setShowCohortInput] = useState(false)
     const [cohortInput, setCohortInput] = useState('')
     const [cohortInputError, setCohortInputError] = useState('')
+    const [removeCohortConfirmation, setRemoveCohortConfirmation] = useState(false)
 
     const isIncluded = (id) => state.user.cohorts.find(cohort => cohort.id === id)?.included
 
@@ -33,14 +34,25 @@ const CohortSettings = () => {
     const onCohortInputEnter = async (event) => {
         if (event.key === 'Enter') {
             const cohort = await api.addCohort(cohortInput, state.user.token)
-            console.log('cohort', cohort)
             if (cohort.error === 'USER_NOT_FOUND') return setCohortInputError(`User ${cohortInput} was not found`)
             const user = { ...state.user, cohorts: state.user.cohorts.concat(cohort) }
             localstorage.setUser(user)
             setState({ user })
             setShowCohortInput(false)
-            console.log('cohort', cohort)
         }
+    }
+
+    const onCohortClick = (cohortId) => () => {
+        setRemoveCohortConfirmation(cohortId)
+        setTimeout(() => setRemoveCohortConfirmation(false), 2000)
+    }
+
+    const removeCohort = (cohortId) => async () => {
+        const response = await api.delCohort(cohortId, state.user.token)
+        if (response.error) return console.error(response.error)
+        const user = { ...state.user, cohorts: state.user.cohorts.filter(cohort => cohort.id !== cohortId) }
+        localstorage.setUser(user)
+        setState({ user })
     }
 
     return <>
@@ -55,7 +67,11 @@ const CohortSettings = () => {
         </Checkbox>
 
         {state.user.cohorts.filter(cohort => cohort.id !== 1 && cohort.id !== state.user.id)
-            .map(cohort => <Checkbox key={`cohort${cohort.id}`} checked={isIncluded(cohort.id)} toggle={toggleCohort(cohort.id)}>{cohort.username}</Checkbox>)}
+            .map((cohort, i) => <Checkbox key={`cohort${cohort.id}`} checked={isIncluded(cohort.id)} toggle={toggleCohort(cohort.id)}>
+                {removeCohortConfirmation === cohort.id
+                    ? <span className='removeconfirmation' onClick={removeCohort(cohort.id)}>remove {cohort.username}?</span>
+                    : <span onClick={onCohortClick(cohort.id)}>{cohort.username}</span>}
+            </Checkbox>)}
 
 
 

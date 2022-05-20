@@ -51,13 +51,6 @@ const setUser = (changes, token) => {
     return fetch(url, options).then(processResponse)
 }
 
-const checkCohort = (username, token) => {
-    const url = apiUrl + '/user/cohort'
-    const options = generateOptions('POST', { username, probe: true }, token)
-    return fetch(url, options).then(processResponse)
-
-}
-
 const addCohort = (username, token) => {
     console.log('addCohort', username, token)
     const url = apiUrl + '/user/cohort'
@@ -68,6 +61,12 @@ const addCohort = (username, token) => {
 const setCohort = (id, included, token) => {
     const url = apiUrl + '/user/cohort'
     const options = generateOptions('PUT', { id, included }, token)
+    return fetch(url, options).then(processResponse)
+}
+
+const delCohort = (id, token) => {
+    const url = apiUrl + '/user/cohort'
+    const options = generateOptions('DELETE', { id }, token)
     return fetch(url, options).then(processResponse)
 }
 
@@ -91,4 +90,15 @@ const errorMessages = {
     unknown: 'A mysterious error has happened. This should not be possible.'
 }
 
-export default { getParameters, access, getCocktails, setCocktail, delCocktail, setUser, checkCohort, setCohort, addCohort, cloneCocktail }
+export default {
+    getParameters,
+    access,
+    getCocktails,
+    setCocktail,
+    delCocktail,
+    setUser,
+    setCohort,
+    addCohort,
+    delCohort,
+    cloneCocktail
+}
