@@ -12,8 +12,8 @@ const Card = ({ id, name, glass, method, garnish, source, info, ingredients, own
 
     const toggle = () => setIsClosed(!isClosed)
 
-    const classes = owner === state.user.id ? 'Card' : 'Card external'
-
+    let classes = isClosed ? 'Card closed' : 'Card open'
+    if (owner !== state.user.id) classes += ' external'
 
     return (
         <div className={classes} data-cocktail-id={id} onClick={toggle}>

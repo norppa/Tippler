@@ -16,21 +16,19 @@ const Settings = () => {
     const close = () => setState({ showSettings: false })
 
     return (
-        <div className='Settings Modal'>
+        <div className='Settings'>
             <div className='window'>
                 <RiCloseCircleLine className='close' onClick={close} />
                 <h1>Settings</h1>
-
-                <SearchSettings />                
+                <hr />
+                <SearchSettings />    
+                <hr />            
                 <CohortSettings />
+                <hr />
                 <UserSettings />
             </div>
         </div>
     )
 }
-
-
-
-
 
 export default Settings

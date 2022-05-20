@@ -158,9 +158,9 @@ const UserSettings = () => {
             }
         </div>
 
-        <div>
+        <div className='buttonContainer'>
 
-            <button onClick={deleteAccount}>Delete Account</button>
+            <button id="deleteAccount" onClick={deleteAccount}>Delete Account</button>
             <button onClick={logout}>Sign out</button>
 
         </div>

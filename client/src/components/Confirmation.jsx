@@ -20,9 +20,8 @@ const Confirmation = () => {
             <p>{text}</p>
 
             <div className='buttonRow'>
-                <button onClick={cancel}>Cancel</button>
-                <button onClick={onConfirm}>{confirmButtonText}</button>
-
+                <button className='cancelBtn' onClick={cancel}>Cancel</button>
+                <button className='confirmBtn' onClick={onConfirm}>{confirmButtonText}</button>
             </div>
         </div>
 

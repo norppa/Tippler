@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500&family=Inspiration&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
 
 html {
     box-sizing: border-box;
 }
 
-html, input, button {
+html, button {
     font-family: 'Alegreya', serif;
-    font-weight: 400;
+    font-weight: 500;
+    color: #0a0541;
 }
 
 *, *:before, *:after {
@@ -19,5 +21,36 @@ body {
     /* background-image: url('./assets/background.jpg');
     background-size: 100vw 100vh; */
     background-color: #0c0932;
-    color: white;
+}
+
+button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 1.5em;
+    margin-top: 16px;
+    margin-left: 10px;
+    padding: 18px 15px;
+    font-size: 15pt;
+    text-transform: uppercase;
+    font-variant: small-caps;
+    border-radius: 5px;
+    background-color: #f6f8fa;
+    border: 1px solid #371775;
+    cursor: pointer;
+}
+
+input, textarea, select {
+    font-size: 15pt;
+    font-family: 'Alegreya', serif;
+    background-color: #F6F8FA;
+    border: 1px solid #371775;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input:focus {
+    background-color: white;
+    outline: 2px solid #371775;
+    
 }

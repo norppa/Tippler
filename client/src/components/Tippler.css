@@ -1,89 +1,25 @@
 .Tippler {
-    max-width: 800px;
+    max-width: 400px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
-    display: grid;
-    grid-template-columns: auto 400px auto;
-    grid-template-rows: 30px auto;
-    grid-template-areas:
-        "logo content menu"
-        ". content .";
-
-}
-
-.contentArea {
-    grid-area: content;
-}
-
-.menuArea {
-    grid-area: menu;
-    text-align: right;
-}
-
-.menuArea button {
-    background-color: rgba(0, 0, 0, 0);
-    cursor: pointer;
-    border: 2px solid rgba(240, 240, 255);
-    padding: 4px 8px;
-    color: rgba(240, 240, 255);
-    border-radius: 10px;
-}
-
-.logoArea {
-    grid-area: logo;
-}
-
-.logo {
-    width: 40px;
 }
 
 .TopRow {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    padding: 0px 10px;
 }
 
 .SettingsIcon {
-    font-size: 20pt;
+    font-size: 25pt;
+    color: white;
     cursor: pointer;
-}
-
-.Modal {
-    position: absolute;
-    inset: 0 0 0 0;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.Modal .window {
-    max-width: 600px;
-    margin: 50px auto auto auto;
-
-    padding: 20px;
-    border: 1px solid black;
-    border-radius: 15px;
-    background-color: white;
-    color: black;
-}
-
-.Modal .close {
-    float: right;
-    position: relative;
-    border-radius: 20px;
-    top: -35px;
-    right: -35px;
-    font-size: 35px;
-
-    cursor: pointer;
-    background-color: white;
-}
-
-.error {
-    text-align: center;
-    color: red;
+    margin-left: 8px;
 }
 
 .Search {
-
     width: 100%;
     padding: 0 10px;
     flex-grow: 1;
@@ -97,4 +33,8 @@
 .Search:focus {
     background-color: white;
     outline: none;
+}
+
+h2 {
+    margin: 0;
 }

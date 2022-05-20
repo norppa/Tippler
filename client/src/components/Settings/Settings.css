@@ -1,29 +1,59 @@
-.inputContainer {
-    font-size: 14pt;
+.Settings {
+    position: absolute;
+    inset: 0 0 auto 0;
+    min-height: 100vh;
+    padding: 50px;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-.inputContainer > * {
-    font-size: 14pt;
+.Settings .window {
+    width: 500px;
+    margin: auto;    
+    padding: 20px;
+    font-size: 15pt;
+    color: #0a0541;
+    background-color: white;
+    box-shadow: 0px 0px 30px 5px #371775;
+    border: 3px solid #371775;
+    border-radius: 15px;
+}
+
+.Settings .close {
+    float: right;
+    position: relative;
+    border-radius: 15px;
+    inset: -15px -15px auto auto;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.Settings h1,h2 {
+    margin: 0;
+}
+
+.inputContainer>* {
     height: 2em;
-    width: calc(100% - 30px);
-    margin: 5px 0px 0px 30px;
+    width: calc(100% - 40px);
+    margin: 5px 0px 0px 40px;
     padding-left: 6px;
     border-radius: 3px;
     border: 1px solid #D0D7DE;
 
 }
 
-.inputContainer > div {
-    font-size: 14pt;
+.inputContainer>div {
     background-color: #F6F8FA;
+    /* background-color: #93def3; */
+    border: 1px solid #371775;
 
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
-.inputContainer > input {
-    font-size: 14pt;
-    border: 1px solid darkblue;
+.inputContainer>input {
+    font-size: 15pt;
+    border: 2px solid #371775;
 }
 
 .cohortInputError {
@@ -31,13 +61,35 @@
     border: none;
 }
 
-.cohortRow {
-    font-size: 14pt;
-    /* display: flex; */
-    border: 1px solid gray;
+.Settings .radio,
+.Settings .checkbox {
+    display: flex;
+    align-items: center;
 }
 
-.cohortRow .icon {
-    border: 1px solid red;
-    
+.Settings .radio .icon,
+.Settings .checkbox .icon {
+    margin: 0px 10px 0px 10px;
+}
+
+.Settings .last {
+    margin-top: 8px;
+}
+
+.Settings .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.Settings .buttonContainer button {
+    background-color: #93def3;
+}
+
+.Settings .buttonContainer #deleteAccount {
+    background-color: #fb2cb5;
+}
+
+.Settings hr {
+    border-top: 1px solid #371775;
+    margin: 20px 10px 10px 10px;
 }

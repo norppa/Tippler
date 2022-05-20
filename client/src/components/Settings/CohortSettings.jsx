@@ -46,7 +46,6 @@ const CohortSettings = () => {
     return <>
         <h2>Cohorts</h2>
 
-
         <Checkbox checked={isIncluded(state.user.id)} toggle={toggleCohort(state.user.id)}>
             <b>My Cocktails</b>
         </Checkbox>
@@ -61,7 +60,7 @@ const CohortSettings = () => {
 
 
         {showCohortInput
-            ? <div className='inputContainer'>
+            ? <div className='inputContainer last'>
                 Add a new cohort
                 <input type='text'
                     value={cohortInput}
@@ -70,9 +69,11 @@ const CohortSettings = () => {
                     onBlur={() => setShowCohortInput(false)}
                     autoFocus />
 
-                <span className='cohortInputError'>{cohortInputError}</span>
+                {cohortInputError && <span className='cohortInputError'>{cohortInputError}</span>}
             </div>
-            : <RiAddBoxLine onClick={() => setShowCohortInput(true)} />
+            : <div className='checkbox last'>
+                <RiAddBoxLine className='icon' onClick={() => setShowCohortInput(true)} />
+            </div>
         }
     </>
 }

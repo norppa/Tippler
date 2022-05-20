@@ -27,7 +27,7 @@ const ContextMenu = () => {
         event.preventDefault()
         const card = event.target.closest('.Card')
         setCocktailId(card ? Number(card.dataset.cocktailId) : null)
-        setIsOwnedByUser(!card.className.includes('external'))
+        card && setIsOwnedByUser(!card.className.includes('external'))
         setVisible(true)
         setX(event.pageX)
         setY(event.pageY)
@@ -51,7 +51,7 @@ const ContextMenu = () => {
             confirmButtonText: `Delete`,
             onConfirm: async () => {
                 setState({ confirmation: null })
-                const response = await api.delCocktail(cocktailId, state.token)
+                const response = await api.delCocktail(cocktailId, state.user.token)
                 if (response.error) return console.error(response.error)
                 setState({ cocktails: state.cocktails.filter(cocktail => cocktail.id !== cocktailId) })
 
@@ -72,12 +72,20 @@ const ContextMenu = () => {
         setState({ showEditor: true, editorCocktail: cocktail})
     }
 
+    const onCloneClick = async () => {
+        const clonedCocktail = await api.cloneCocktail(cocktailId, state.user.token)
+        console.log('cloned', clonedCocktail)
+        if (clonedCocktail.error) return console.error(clonedCocktail.error)
+        setVisible(false)
+        setState({ cocktails: state.cocktails.concat(clonedCocktail)})
+    }
+
     return (
         <div id='ContextMenu' style={{ top: y, left: x }}>
             <div className='item' onClick={onAddNewClick}>Add new cocktail </div>
             {isOwnedByUser && <div className='item' onClick={onEditClick}>Edit Cocktail</div>}
             {isOwnedByUser && <div className='item' onClick={onDeleteClick}>Delete Cocktail</div>}
-            {(!isOwnedByUser && cocktailId) && <div className='item'>Copy to My Cocktails</div>}
+            {(!isOwnedByUser && cocktailId) && <div className='item' onClick={onCloneClick}>Copy to My Cocktails</div>}
 
         </div>
     )

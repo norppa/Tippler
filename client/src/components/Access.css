@@ -7,6 +7,7 @@
     margin-left: auto;
     margin-right: auto;
     font-size: 14pt;
+    color: white;
 }
 
 .Access input, .Access button {
@@ -58,6 +59,7 @@
     padding: 3px;
     font-size: 1.2em;
     border-radius: 5px;
+    border: 1px solid #371775;
 }
 
 .Access input:disabled {

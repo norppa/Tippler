@@ -41,36 +41,22 @@ router.get('/', authenticate, (req, res) => {
 })
 
 router.post('/', authenticate, validate, (req, res) => {
-    const { name, glass, method, source, info, ingredients } = req.body
-    const createCocktail = db.transaction(() => {
-        const result = db.prepare('INSERT INTO cocktails (name, glass, method, source, info, owner) values (?,?,?,?,?,?)')
-            .run(name, glass, method, source, info, req.user.id)
-        ingredients.forEach(ingredient => {
-            db.prepare('INSERT INTO cocktail_ingredients (cocktail_id, name, amount) VALUES (?,?,?)')
-                .run(result.lastInsertRowid, ingredient.name, ingredient.amount)
-        })
-        return result.lastInsertRowid
-    })
-
+    console.log('/POST', req.body)
+    const { name, ingredients, glass, method, garnish, source, info } = req.body
     try {
-        const id = createCocktail()
-        res.send({ id, name, glass, method, source, info, ingredients })
+        const createdCocktail = Database.addCocktail(req.user.id, name, ingredients, glass, method, garnish, source, info)
+        res.send(createdCocktail)
     } catch (error) {
         console.error(error.message)
         res.status(500).send(error)
     }
-
-    res.send()
 })
 
 router.delete('/', authenticate, (req, res) => {
     console.log('DELETE', req.body)
-    const deletion = db.transaction(() => {
-        db.prepare('DELETE FROM cocktail_ingredients WHERE cocktail_id=?').run(req.body.id)
-        db.prepare('DELETE FROM cocktails WHERE id=? AND owner=?').run(req.body.id, req.user.id)
-    })
+    const { id } = req.body
     try {
-        deletion()
+        Database.delCocktail(req.user.id, id)
         res.send({})
     } catch (error) {
         console.error(error)
@@ -79,43 +65,26 @@ router.delete('/', authenticate, (req, res) => {
 })
 
 router.put('/', authenticate, validate, (req, res) => {
-    const { id, name, glass, method, garnish, source, info, ingredients } = req.body
-
-    const updateTransaction = db.transaction(() => {
-        const updated = { id }
-        const nonEmptyParameters = Object.entries({ name, glass, method, garnish, source, info })
-            .filter(([key, value]) => !!value)
-        if (nonEmptyParameters.length > 0) {
-            let query = 'UPDATE cocktails SET '
-            let params = []
-            nonEmptyParameters.forEach(([key, value]) => {
-                query += key + '=?, '
-                params = params.concat(value)
-                updated[key] = value
-            })
-            query = query.substring(0, query.length - 2) + 'WHERE id=? AND owner=?'
-            params = params.concat(id, req.user.id)
-            db.prepare(query).run(...params)
-        }
-
-        if (ingredients) {
-            db.prepare('DELETE FROM cocktail_ingredients WHERE cocktail_id=?').run(id)
-            ingredients.forEach(ingredient => {
-                db.prepare('INSERT INTO cocktail_ingredients (cocktail_id, name, amount) VALUES (?,?,?)')
-                    .run(id, ingredient.name, ingredient.value)
-            })
-
-            updated.ingredients = ingredients
-        }
-        return updated
-    })
-
+    console.log('/PUT', req.body)
+    const { id, name, ingredients, glass, method, garnish, source, info } = req.body
     try {
-        const value = updateTransaction()
-        res.send(value)
+        const changes = Database.setCocktail(req.user.id, id, name, ingredients, glass, method, garnish, source, info)
+        res.send(changes)
     } catch (error) {
-        console.error(error.message)
-        res.status(500).send(error)
+        console.error(error)
+        res.status(500).send(error.message)
+    }
+})
+
+router.post('/:id', authenticate, (req, res) => {
+    console.log('clone cocktail', req.params.id)
+    try {
+        const clonedCocktail = Database.cloneCocktail(req.user.id, req.params.id)
+        if (clonedCocktail.error) res.status(400).send(clonedCocktail.error)
+        res.send(clonedCocktail)
+    } catch (error) {
+        console.error(error)
+        res.status(500).send(error.message)
     }
 })
 

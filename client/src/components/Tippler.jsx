@@ -6,7 +6,7 @@ import { Context } from '../main'
 import api from '../api'
 import Card from './Card'
 import ContextMenu from './ContextMenu'
-import Editor from './Editor'
+import Editor from './Editor/Editor'
 import Settings from './Settings/Settings'
 
 import './Tippler.css'
@@ -39,26 +39,24 @@ const Tippler = () => {
         return [glass, method, garnish, source, info].some(x => matchesSearch(x))
     }
 
-    console.log(state.cocktails)
+    console.log('cocktais', state.cocktails)
 
     return (
         <>
             <div className='Tippler'>
-                <div className='contentArea'>
-                    <div className='TopRow'>
-                        <input className='Search'
-                            type='text'
-                            value={state.searchValue}
-                            onChange={setSearchValue}
-                        />
-                        <BiCog className='SettingsIcon' onClick={openSettings} />
-                    </div>
-                    {<div className='error'>{error}</div>}
-                    {
-                        state.cocktails.filter(bySearch)
-                            .map((cocktail) => <Card key={cocktail.id} {...cocktail} />)
-                    }
+                <div className='TopRow'>
+                    <input className='Search'
+                        type='text'
+                        value={state.searchValue}
+                        onChange={setSearchValue}
+                    />
+                    <BiCog className='SettingsIcon' onClick={openSettings} />
                 </div>
+                {<div className='error'>{error}</div>}
+                {
+                    state.cocktails.filter(bySearch)
+                        .map((cocktail) => <Card key={cocktail.id} {...cocktail} />)
+                }
             </div>
             <ContextMenu />
             <Editor />

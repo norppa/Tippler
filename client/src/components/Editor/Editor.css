@@ -1,0 +1,137 @@
+.Editor {
+    position: absolute;
+    inset: 0 0 auto 0;
+    min-height: 100vh;
+    padding: 50px;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.Editor .window {
+    width: 500px;
+    margin: auto;    
+    padding: 20px 30px 30px 20px;
+    font-size: 15pt;
+    color: #0a0541;
+    background-color: white;
+    box-shadow: 0px 0px 30px 5px #371775;
+    border: 3px solid #371775;
+    border-radius: 15px;
+}
+
+.Editor .content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
+.Editor .topBlock {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.Editor .topBlock .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.Editor .topBlock .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    max-width: 100px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.Editor h1 {
+    margin: 0px;
+}
+
+.Editor .close {
+    float: right;
+    position: relative;
+    border-radius: 15px;
+    inset: -15px -15px auto auto;
+    font-size: 30px;
+    cursor: pointer;
+    clear: none;
+}
+
+.Editor img {
+    width: 80px;
+    height: 80px;
+}
+
+.Editor .Errors {
+    text-align: center;
+    margin-bottom: 10px;
+    color: red;
+}
+
+/* Ingredient list */
+
+.Editor ul {
+    margin: 0;
+}
+
+.Editor li .ingredientRow {
+    display: flex;
+    min-height: 10px;
+}
+
+.Editor li .ingredientRow input {
+    min-width: 0;
+    margin: 1px;
+}
+
+.Editor li .ingredientRow input.ingredientAmountInput {
+    flex: 1;
+}
+
+.Editor li .ingredientRow input.ingredientNameInput {
+    flex: 3;
+}
+
+.Editor label {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+}
+
+.Editor label>input,
+.Editor label>textarea,
+.Editor label>select {
+    flex: 1;
+    margin-left: 20px;
+    resize: none;
+    font-size: 15pt;
+}
+
+.Editor .dropdowns {
+    display: flex;
+}
+
+.Editor .dropdowns > label {
+    flex: 1;
+}
+
+.Editor .error {
+    color: red;
+}
+
+.Editor .error input, .Editor .ingredientNameError {
+    outline: red;
+    border-color: red;
+    border-radius: 3px;
+}
+
+.Editor .buttonRow {
+    display: flex;
+    justify-content: flex-end;
+}

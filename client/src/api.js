@@ -71,6 +71,12 @@ const setCohort = (id, included, token) => {
     return fetch(url, options).then(processResponse)
 }
 
+const cloneCocktail = (id, token) => {
+    const url = apiUrl + `/cocktail/${id}`
+    const options = generateOptions('POST', null, token)
+    return fetch(url, options).then(processResponse)
+}
+
 const processResponse = async (response) => {
     if (response.status === 200) return await response.json()
     const errorCode = await response.text() ?? unknown
@@ -85,4 +91,4 @@ const errorMessages = {
     unknown: 'A mysterious error has happened. This should not be possible.'
 }
 
-export default { getParameters, access, getCocktails, setCocktail, delCocktail, setUser, checkCohort, setCohort, addCohort }
+export default { getParameters, access, getCocktails, setCocktail, delCocktail, setUser, checkCohort, setCohort, addCohort, cloneCocktail }
