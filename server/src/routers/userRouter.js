@@ -29,16 +29,18 @@ router.post('/register', (req, res) => {
         const userId = createUserResult.lastInsertRowid
         const cohorts = [{ id: 1, included: true }, { id: userId, included: true }]
         cohorts.forEach(cohort => {
-            db.prepare('INSERT INTO cohorts (user, cohort, included) VALUES (?,?,?)').run(userId, cohort.id, cohort.included)
+            db.prepare('INSERT INTO cohorts (user, cohort, included) VALUES (?,?,?)').run(userId, cohort.id, 1)
         })
-
-        return { id: result.lastInsertRowid, username, visiblity: 'HIDDEN', cohorts, token }
+        const token = generateToken({ id: userId })
+        return { id: userId, username, visiblity: 'HIDDEN', cohorts, token }
     })
 
     try {
         const user = registerTransaction()
+
         res.send(user)
     } catch (error) {
+        console.error(error)
         res.status(500).send('DATABASE_ERROR')
     }
 
